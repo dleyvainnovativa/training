@@ -26,12 +26,12 @@
         <tbody>
         @forelse ($rules as $r)
             <tr>
-                <td>{{ $r->name }} @unless($r->active)<span class="pill ms-1">Inactiva</span>@endunless</td>
-                <td>{{ $r->describe() }}</td>
-                <td><span class="pill brand">{{ $r->recommend_category }}</span></td>
-                <td>{{ $r->recommend_intensity ? \App\Models\Exercise::INTENSITIES[$r->recommend_intensity] : '—' }}</td>
-                <td class="mono">{{ $r->weight }}</td>
-                <td class="text-end" style="white-space:nowrap">
+                <td data-label="Regla">{{ $r->name }} @unless($r->active)<span class="pill ms-1">Inactiva</span>@endunless</td>
+                <td data-label="Condición">{{ $r->describe() }}</td>
+                <td data-label="Recomienda"><span class="pill brand">{{ $r->recommend_category }}</span></td>
+                <td data-label="Intensidad">{{ $r->recommend_intensity ? \App\Models\Exercise::INTENSITIES[$r->recommend_intensity] : '—' }}</td>
+                <td data-label="Peso" class="mono">{{ $r->weight }}</td>
+                <td data-label="" class="text-end" style="white-space:nowrap">
                     <button class="btn btn-soft btn-sm" onclick='editRule(@json($r))'><i class="fa-solid fa-pen"></i></button>
                     <form method="POST" action="{{ route('rules.destroy', $r) }}" class="d-inline"
                           onsubmit="return confirm('Eliminar esta regla?')">

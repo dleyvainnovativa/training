@@ -22,15 +22,15 @@
         <tbody>
         @forelse ($routines as $r)
             <tr style="cursor:pointer" onclick="location.href='{{ route('routines.show', $r) }}'">
-                <td>{{ $r->name }}</td>
-                <td>{{ $r->athlete?->name ?? '—' }}</td>
-                <td class="mono">{{ $r->week_start->format('d/m/Y') }}</td>
-                <td>
+                <td data-label="Rutina">{{ $r->name }}</td>
+                <td data-label="Atleta">{{ $r->athlete?->name ?? '—' }}</td>
+                <td data-label="Semana" class="mono">{{ $r->week_start->format('d/m/Y') }}</td>
+                <td data-label="Estado">
                     @php $sc = ['draft'=>'','active'=>'brand','archived'=>''][$r->status] ?? ''; @endphp
                     @php $sl = ['draft'=>'Borrador','active'=>'Activa','archived'=>'Archivada'][$r->status] ?? $r->status; @endphp
                     <span class="pill {{ $sc }}">{{ $sl }}</span>
                 </td>
-                <td style="min-width:120px">
+                <td data-label="Progreso" style="min-width:120px">
                     @php $p = $r->progress(); @endphp
                     <div class="d-flex align-items-center gap-2">
                         <div style="flex:1;height:6px;background:var(--surface-2);border-radius:999px;overflow:hidden">
@@ -39,7 +39,7 @@
                         <span class="mono" style="font-size:.78rem">{{ $p }}%</span>
                     </div>
                 </td>
-                <td class="text-end">
+                <td data-label="" class="text-end">
                     <a href="{{ route('routines.show', $r) }}" class="btn btn-soft btn-sm">
                         Abrir <i class="fa-solid fa-chevron-right ms-1"></i>
                     </a>

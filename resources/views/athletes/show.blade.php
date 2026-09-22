@@ -79,7 +79,7 @@
                 @foreach($latest as $row)
                     <div class="col-6 col-md-4">
                         <div class="card card-pad stat-tile" style="cursor:pointer"
-                             onclick="loadHistory({{ $row->metric_id }}, @json($row->metric->name))">
+                             onclick='loadHistory({{ $row->metric_id }}, @json($row->metric->name))'>
                             <span class="stat-label">{{ $row->metric->name }}</span>
                             <span class="stat-value">{{ rtrim(rtrim($row->value, '0'), '.') }}</span>
                             <span class="card-subtle" style="font-size:.75rem">
@@ -153,9 +153,17 @@
         });
     }
 
-    // Auto-load the first metric if any exist.
+    // Auto-load the first metric if any exist (wait for App to be ready).
+    // Guarded so it never throws if app.js hasn't executed yet.
     @if(!$latest->isEmpty())
-        loadHistory({{ $latest->first()->metric_id }}, @json($latest->first()->metric->name));
+        (function () {
+            var load = () => loadHistory({{ $latest->first()->metric_id }}, @json($latest->first()->metric->name));
+            if (window.App && window.App.ready) {
+                window.App.ready(load);
+            } else {
+                document.addEventListener('App:ready', load, { once: true });
+            }
+        })();
     @endif
 </script>
 @endsection

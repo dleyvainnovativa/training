@@ -32,23 +32,23 @@
         <tbody>
         @forelse ($exercises as $e)
             <tr>
-                <td>
+                <td data-label="Nombre">
                     {{ $e->name }}
                     @unless($e->active)<span class="pill ms-1">Inactivo</span>@endunless
                 </td>
-                <td>@if($e->category)<span class="pill brand">{{ $e->category }}</span>@else — @endif</td>
-                <td>
+                <td data-label="Categoría">@if($e->category)<span class="pill brand">{{ $e->category }}</span>@else — @endif</td>
+                <td data-label="Intensidad">
                     @php $ic = ['low'=>'','medium'=>'brand','high'=>''][$e->intensity] ?? ''; @endphp
                     <span class="pill {{ $ic }}">{{ $e->intensityLabel() }}</span>
                 </td>
-                <td>{{ $e->equipment ?: '—' }}</td>
-                <td>
+                <td data-label="Equipo">{{ $e->equipment ?: '—' }}</td>
+                <td data-label="Etiquetas">
                     @foreach(($e->tags ?? []) as $t)
                         <span class="pill">{{ $t }}</span>
                     @endforeach
                     @if(empty($e->tags)) — @endif
                 </td>
-                <td class="text-end" style="white-space:nowrap">
+                <td data-label="" class="text-end" style="white-space:nowrap">
                     <button class="btn btn-soft btn-sm" onclick='editExercise(@json($e))'>
                         <i class="fa-solid fa-pen"></i>
                     </button>

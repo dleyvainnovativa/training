@@ -25,25 +25,25 @@
         <tbody>
         @forelse ($metrics as $m)
             <tr>
-                <td>
+                <td data-label="Nombre">
                     {{ $m->name }}
                     @unless($m->active)<span class="pill ms-1">Inactiva</span>@endunless
                 </td>
-                <td class="mono">{{ $m->unit ?: '—' }}</td>
-                <td>{{ $m->category ?: '—' }}</td>
-                <td>
+                <td data-label="Unidad" class="mono">{{ $m->unit ?: '—' }}</td>
+                <td data-label="Categoría">{{ $m->category ?: '—' }}</td>
+                <td data-label="Dirección">
                     @if($m->higherIsBetter())
                         <span class="pill brand"><i class="fa-solid fa-arrow-trend-up"></i> Mayor mejor</span>
                     @else
                         <span class="pill"><i class="fa-solid fa-arrow-trend-down"></i> Menor mejor</span>
                     @endif
                 </td>
-                <td class="mono">
+                <td data-label="Rango" class="mono">
                     {{ $m->min_range !== null ? rtrim(rtrim($m->min_range,'0'),'.') : '–' }}
                     …
                     {{ $m->max_range !== null ? rtrim(rtrim($m->max_range,'0'),'.') : '–' }}
                 </td>
-                <td class="text-end">
+                <td data-label="" class="text-end">
                     <button class="btn btn-soft btn-sm" onclick='editMetric(@json($m))'>
                         <i class="fa-solid fa-pen"></i>
                     </button>

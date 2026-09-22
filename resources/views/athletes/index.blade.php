@@ -25,17 +25,17 @@
         <tbody>
         @forelse ($athletes as $a)
             <tr style="cursor:pointer" onclick="location.href='{{ route('athletes.show', $a) }}'">
-                <td>{{ $a->name }}</td>
-                <td>{{ $a->discipline ?: '—' }}</td>
-                <td class="mono">{{ $a->age() ?? '—' }}</td>
-                <td>
+                <td data-label="Nombre">{{ $a->name }}</td>
+                <td data-label="Disciplina">{{ $a->discipline ?: '—' }}</td>
+                <td data-label="Edad" class="mono">{{ $a->age() ?? '—' }}</td>
+                <td data-label="Estado">
                     @if($a->status === 'active')
                         <span class="pill brand">Activo</span>
                     @else
                         <span class="pill">Inactivo</span>
                     @endif
                 </td>
-                <td class="text-end">
+                <td data-label="" class="text-end">
                     <a href="{{ route('athletes.show', $a) }}" class="btn btn-soft btn-sm">
                         Ver <i class="fa-solid fa-chevron-right ms-1"></i>
                     </a>

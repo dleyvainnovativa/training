@@ -81,11 +81,11 @@
         const intensityMap = { low: 'Baja', medium: 'Media', high: 'Alta' };
         document.getElementById('recBody').innerHTML = recs.map(r => `
             <tr>
-                <td>${r.name}</td>
-                <td><span class="pill brand">${r.category}</span></td>
-                <td>${intensityMap[r.intensity] || r.intensity}</td>
-                <td class="mono">${(+r.score).toFixed(1)}</td>
-                <td class="card-subtle" style="font-size:.82rem">${(r.reasons || []).join('; ')}</td>
+                <td data-label="Ejercicio">${r.name}</td>
+                <td data-label="Categoría"><span class="pill brand">${r.category}</span></td>
+                <td data-label="Intensidad">${intensityMap[r.intensity] || r.intensity}</td>
+                <td data-label="Puntaje" class="mono">${(+r.score).toFixed(1)}</td>
+                <td data-label="Por qué" class="card-subtle" style="font-size:.82rem">${(r.reasons || []).join('; ')}</td>
             </tr>
         `).join('');
     }

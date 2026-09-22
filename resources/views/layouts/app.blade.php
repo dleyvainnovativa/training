@@ -1,9 +1,21 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="{{ request()->cookie('theme', 'light') }}">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- Apply saved theme before first paint to avoid a light→dark flash. --}}
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (t === 'dark' || t === 'light') {
+                    document.documentElement.setAttribute('data-theme', t);
+                }
+            } catch (e) {}
+        })();
+    </script>
     <title>@yield('title', 'Panel') · Centro Deportivo</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

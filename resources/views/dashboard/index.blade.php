@@ -9,7 +9,7 @@
 
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
-        <a href="{{ route('athletes.index') }}" class="card card-pad stat-tile d-block text-decoration-none">
+        <a href="{{ route('athletes.index') }}" class="card card-pad stat-tile text-decoration-none">
             <span class="stat-label"><i class="fa-solid fa-users me-1"></i>Atletas activos</span>
             <span class="stat-value">{{ $stats['athletes'] }}</span>
         </a>
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <a href="{{ route('metrics.index') }}" class="card card-pad stat-tile d-block text-decoration-none">
+        <a href="{{ route('metrics.index') }}" class="card card-pad stat-tile text-decoration-none">
             <span class="stat-label"><i class="fa-solid fa-ruler-combined me-1"></i>Métricas</span>
             <span class="stat-value">{{ $stats['metrics'] }}</span>
         </a>
@@ -37,18 +37,25 @@
 <div class="card card-pad">
     <h2 class="card-title mb-3">Actividad reciente</h2>
     @if($recent->isEmpty())
-        <p class="card-subtle mb-0">Sin mediciones registradas todavía.</p>
+    <p class="card-subtle mb-0">Sin mediciones registradas todavía.</p>
     @else
     <table class="table-clean">
-        <thead><tr><th>Atleta</th><th>Métrica</th><th>Valor</th><th>Fecha</th></tr></thead>
+        <thead>
+            <tr>
+                <th>Atleta</th>
+                <th>Métrica</th>
+                <th>Valor</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
         <tbody>
             @foreach($recent as $m)
-                <tr onclick="location.href='{{ route('athletes.show', $m->athlete_id) }}'" style="cursor:pointer">
-                    <td>{{ $m->athlete?->name ?? '—' }}</td>
-                    <td>{{ $m->metric?->name ?? '—' }}</td>
-                    <td class="mono">{{ rtrim(rtrim($m->value,'0'),'.') }} {{ $m->metric?->unit }}</td>
-                    <td class="card-subtle">{{ $m->measured_at->format('d/m/Y') }}</td>
-                </tr>
+            <tr onclick="location.href='{{ route('athletes.show', $m->athlete_id) }}'" style="cursor:pointer">
+                <td data-label="Atleta">{{ $m->athlete?->name ?? '—' }}</td>
+                <td data-label="Métrica">{{ $m->metric?->name ?? '—' }}</td>
+                <td data-label="Valor" class="mono">{{ rtrim(rtrim($m->value,'0'),'.') }} {{ $m->metric?->unit }}</td>
+                <td data-label="Fecha" class="card-subtle">{{ $m->measured_at->format('d/m/Y') }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>

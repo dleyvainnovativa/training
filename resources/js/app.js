@@ -133,10 +133,10 @@ function serializeForm(form) {
   return out;
 }
 
-/* ---------- Theme toggle (light/dark via cookie) ---------------------- */
+/* ---------- Theme toggle (light/dark via localStorage) --------------- */
 function setTheme(mode) {
   document.documentElement.setAttribute('data-theme', mode);
-  document.cookie = `theme=${mode};path=/;max-age=31536000;samesite=lax`;
+  try { localStorage.setItem('theme', mode); } catch (e) {}
 }
 function initTheme() {
   const btn = document.querySelector('[data-theme-toggle]');
@@ -162,7 +162,19 @@ function initSidebar() {
 /* ---------- Public surface ------------------------------------------- */
 window.App = { http, toast, withLoading, modal, serializeForm, setTheme };
 
+/*
+  app.js is loaded by Vite as a deferred ES module, so inline page scripts
+  may parse before window.App exists. Page scripts that need App at load
+  time should use App.ready(fn) instead of calling App.* immediately.
+*/
+App.ready = function (fn) {
+  if (window.App && window.App.__ready) { fn(); return; }
+  document.addEventListener('App:ready', fn, { once: true });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initSidebar();
+  window.App.__ready = true;
+  document.dispatchEvent(new CustomEvent('App:ready'));
 });

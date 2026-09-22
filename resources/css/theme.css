@@ -8,22 +8,22 @@
 
 /* ---------- 1. Design tokens -------------------------------------------- */
 :root {
-  /* Brand — desaturated teal-slate: clinical, calm, not a cliché accent */
-  --brand-50:  #eef4f5;
-  --brand-100: #d5e4e6;
-  --brand-300: #8fb8bd;
-  --brand-500: #3f7f88;
-  --brand-600: #336870;
-  --brand-700: #294f56;
+  /* Brand — energetic orange (#F26222): warm, athletic, confident */
+  --brand-50:  #fdf0ea;
+  --brand-100: #fbdccd;
+  --brand-300: #f8a884;
+  --brand-500: #f26222;
+  --brand-600: #d9501a;
+  --brand-700: #b03f12;
 
-  /* Attention / progress — restrained amber (performance, not alarm) */
-  --accent-400: #e3a44b;
-  --accent-500: #d18f2f;
+  /* Attention / progress — cool teal, complementary to the orange brand */
+  --accent-400: #2fa4a4;
+  --accent-500: #1f8a8a;
 
-  /* Semantic */
+  /* Semantic — bad-500 pushed redder so errors stay distinct from brand */
   --ok-500:   #2f8f5b;
   --warn-500: #c98a1e;
-  --bad-500:  #c0492f;
+  --bad-500:  #d92d20;
 
   /* Neutrals (light) */
   --bg:         #f7f8f9;
@@ -49,12 +49,17 @@
 }
 
 [data-theme="dark"] {
-  --brand-50:  #16292c;
-  --brand-100: #1c3438;
-  --brand-300: #4f8992;
-  --brand-500: #5aa6b0;
-  --brand-600: #78bcc5;
-  --brand-700: #9fd2d9;
+  /* Brand lifted so orange reads on dark surfaces */
+  --brand-50:  #2a170e;
+  --brand-100: #3a1e12;
+  --brand-300: #c05a2a;
+  --brand-500: #f47a44;
+  --brand-600: #f89468;
+  --brand-700: #fbb08e;
+
+  /* Accent lifted for dark surfaces */
+  --accent-400: #4fc4c4;
+  --accent-500: #6fd4d4;
 
   --bg:         #0f1516;
   --surface:    #161e20;
@@ -78,6 +83,32 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   margin: 0;
+
+  /* Bridge Bootstrap's own CSS variables to our theme tokens, so Bootstrap
+     components (cards, tables, body text) track light/dark correctly.
+     These are what fix invisible text in dark mode where Bootstrap rules
+     like `color: var(--bs-card-title-color)` were resolving to undefined. */
+  --bs-body-color: var(--text);
+  --bs-body-bg: var(--bg);
+  --bs-secondary-color: var(--text-muted);
+  --bs-border-color: var(--border);
+  --bs-emphasis-color: var(--text);
+  --bs-heading-color: var(--text);
+
+  /* Cards */
+  --bs-card-color: var(--text);
+  --bs-card-title-color: var(--text);
+  --bs-card-subtitle-color: var(--text-muted);
+  --bs-card-cap-color: var(--text);
+  --bs-card-bg: var(--surface);
+  --bs-card-border-color: var(--border);
+
+  /* Tables */
+  --bs-table-color: var(--text);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--border);
+  --bs-table-striped-color: var(--text);
+  --bs-table-hover-color: var(--text);
 }
 
 h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
@@ -180,11 +211,17 @@ a:hover { color: var(--brand-700); }
   box-shadow: var(--shadow-sm);
 }
 .card-pad { padding: 1.15rem 1.25rem; }
-.card-title { font-size: .95rem; font-weight: 600; margin: 0 0 .2rem; }
+.card-title { font-size: .95rem; font-weight: 600; margin: 0 0 .2rem; color: var(--text); }
 .card-subtle { color: var(--text-muted); font-size: .85rem; }
 
 /* Stat tile — distinct from generic card: value-led, mono figure */
-.stat-tile { display: flex; flex-direction: column; gap: .3rem; }
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  height: 100%;              /* fill the grid column so all tiles match height */
+  justify-content: flex-start;
+}
 .stat-tile .stat-label { color: var(--text-muted); font-size: .82rem; font-weight: 500; }
 .stat-tile .stat-value {
   font-family: var(--font-mono);
@@ -239,6 +276,79 @@ a:hover { color: var(--brand-700); }
 }
 .table-clean tr:last-child td { border-bottom: 0; }
 .table-clean tbody tr:hover { background: var(--surface-2); }
+
+/* Mobile: stack each row into a labeled card.
+   Each <td> needs data-label="<column>" for the label to show. */
+@media (max-width: 640px) {
+  .table-clean thead { display: none; }
+  .table-clean, .table-clean tbody, .table-clean tr, .table-clean td {
+    display: block;
+    width: 100%;
+  }
+  .table-clean tr {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: .35rem .25rem;
+    margin-bottom: .75rem;
+  }
+  .table-clean tr:last-child { margin-bottom: 0; }
+  .table-clean tbody tr:hover { background: var(--surface); }
+  .table-clean td {
+    border-bottom: 1px solid var(--border);
+    padding: .5rem .75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    text-align: right;
+  }
+  .table-clean tr td:last-child { border-bottom: 0; }
+  .table-clean td::before {
+    content: attr(data-label);
+    font-size: .72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    text-align: left;
+    flex: 0 0 auto;
+  }
+  /* Action cells: no label, right-aligned. */
+  .table-clean td[data-label=""] {
+    justify-content: flex-end;
+  }
+  .table-clean td[data-label=""]::before { content: none; }
+  /* Empty-state rows (colspan, no data-label attr): centered, no label. */
+  .table-clean td:not([data-label]) {
+    justify-content: center;
+    text-align: center;
+  }
+  .table-clean td:not([data-label])::before { content: none; }
+}
+
+/* Pagination — themed to match brand, using Bootstrap 5 paginator markup. */
+.pagination {
+  --bs-pagination-color: var(--brand-600);
+  --bs-pagination-bg: var(--surface);
+  --bs-pagination-border-color: var(--border);
+  --bs-pagination-hover-color: var(--brand-700);
+  --bs-pagination-hover-bg: var(--surface-2);
+  --bs-pagination-hover-border-color: var(--border);
+  --bs-pagination-focus-color: var(--brand-700);
+  --bs-pagination-focus-bg: var(--surface-2);
+  --bs-pagination-focus-box-shadow: 0 0 0 3px var(--brand-50);
+  --bs-pagination-active-color: #fff;
+  --bs-pagination-active-bg: var(--brand-500);
+  --bs-pagination-active-border-color: var(--brand-500);
+  --bs-pagination-disabled-color: var(--text-muted);
+  --bs-pagination-disabled-bg: var(--surface);
+  --bs-pagination-disabled-border-color: var(--border);
+  --bs-pagination-border-radius: var(--radius-sm);
+  font-size: .9rem;
+  margin-bottom: 0;
+}
 
 /* ---------- 8. Forms --------------------------------------------------- */
 .form-control, .form-select {
