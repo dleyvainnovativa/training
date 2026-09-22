@@ -27,8 +27,46 @@
                     <span class="pill brand">Activo</span>
                 @else <span class="pill">Inactivo</span> @endif
             </div>
+
+            {{-- Vitals / physical profile --}}
+            @php
+                $bmi = $athlete->bmi();
+                $weight = $athlete->latestWeightKg();
+                $hasVitals = $athlete->height_cm || $weight || $athlete->dominant_hand || $athlete->position;
+            @endphp
+            @if($hasVitals)
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    @if($athlete->height_cm)
+                        <span class="pill"><i class="fa-solid fa-ruler-vertical me-1"></i>{{ rtrim(rtrim($athlete->height_cm, '0'), '.') }} cm</span>
+                    @endif
+                    @if($weight)
+                        <span class="pill"><i class="fa-solid fa-weight-scale me-1"></i>{{ rtrim(rtrim((string) $weight, '0'), '.') }} kg</span>
+                    @endif
+                    @if($bmi)
+                        <span class="pill brand"><i class="fa-solid fa-calculator me-1"></i>IMC {{ $bmi }}</span>
+                    @endif
+                    @if($athlete->dominantHandLabel())
+                        <span class="pill"><i class="fa-solid fa-hand me-1"></i>{{ $athlete->dominantHandLabel() }}</span>
+                    @endif
+                    @if($athlete->position)
+                        <span class="pill"><i class="fa-solid fa-location-dot me-1"></i>{{ $athlete->position }}</span>
+                    @endif
+                </div>
+            @endif
+
+            @if($athlete->phone || $athlete->emergency_contact)
+                <div class="mt-3 pt-3" style="border-top:1px solid var(--border)">
+                    @if($athlete->phone)
+                        <p class="card-subtle mb-1"><i class="fa-solid fa-phone me-2"></i>{{ $athlete->phone }}</p>
+                    @endif
+                    @if($athlete->emergency_contact)
+                        <p class="card-subtle mb-0"><i class="fa-solid fa-kit-medical me-2"></i>{{ $athlete->emergency_contact }}</p>
+                    @endif
+                </div>
+            @endif
+
             @if($athlete->notes)
-                <p class="card-subtle mt-2 mb-0">{{ $athlete->notes }}</p>
+                <p class="card-subtle mt-3 mb-0">{{ $athlete->notes }}</p>
             @endif
         </div>
 

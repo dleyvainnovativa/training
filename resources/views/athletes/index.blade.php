@@ -82,9 +82,40 @@
               </select>
             </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Disciplina</label>
-            <input name="discipline" class="form-control" placeholder="p. ej. Atletismo, Natación">
+          <div class="row g-2">
+            <div class="col-6 mb-3">
+              <label class="form-label">Altura (cm) <span class="card-subtle">(opcional)</span></label>
+              <input name="height_cm" type="number" step="0.1" min="50" max="260" class="form-control" placeholder="p. ej. 178">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Mano dominante</label>
+              <select name="dominant_hand" class="form-select">
+                <option value="">—</option>
+                <option value="right">Diestro</option>
+                <option value="left">Zurdo</option>
+                <option value="ambi">Ambidiestro</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-6 mb-3">
+              <label class="form-label">Disciplina</label>
+              <input name="discipline" class="form-control" placeholder="p. ej. Pádel, Tenis">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Posición / categoría</label>
+              <input name="position" class="form-control" placeholder="p. ej. Drive, Revés, Singles">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-6 mb-3">
+              <label class="form-label">Teléfono <span class="card-subtle">(opcional)</span></label>
+              <input name="phone" class="form-control" placeholder="p. ej. 229 123 4567">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Contacto de emergencia</label>
+              <input name="emergency_contact" class="form-control" placeholder="Nombre y teléfono">
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Estado</label>

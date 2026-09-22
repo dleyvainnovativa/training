@@ -51,12 +51,17 @@ class AthleteController extends Controller
     private function validated(Request $request): array
     {
         return $request->validate([
-            'name'       => ['required', 'string', 'max:150'],
-            'birthdate'  => ['nullable', 'date', 'before:today'],
-            'sex'        => ['nullable', 'in:M,F,O'],
-            'discipline' => ['nullable', 'string', 'max:100'],
-            'status'     => ['required', 'in:active,inactive'],
-            'notes'      => ['nullable', 'string', 'max:2000'],
+            'name'              => ['required', 'string', 'max:150'],
+            'birthdate'         => ['nullable', 'date', 'before:today'],
+            'sex'               => ['nullable', 'in:M,F,O'],
+            'height_cm'         => ['nullable', 'numeric', 'min:50', 'max:260'],
+            'dominant_hand'     => ['nullable', 'in:right,left,ambi'],
+            'discipline'        => ['nullable', 'string', 'max:100'],
+            'position'          => ['nullable', 'string', 'max:100'],
+            'phone'             => ['nullable', 'string', 'max:40'],
+            'emergency_contact' => ['nullable', 'string', 'max:200'],
+            'status'            => ['required', 'in:active,inactive'],
+            'notes'             => ['nullable', 'string', 'max:2000'],
         ]);
     }
 }
