@@ -1,0 +1,344 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* ==========================================================================
+   theme.css — Centro Deportivo (Sport Club Management)
+   Design language: "Linear meets Stripe" — calm, clinical, trustworthy.
+   All custom styling lives here. Bootstrap handles grid/spacing/utilities.
+   ========================================================================== */
+
+/* ---------- 1. Design tokens -------------------------------------------- */
+:root {
+  /* Brand — desaturated teal-slate: clinical, calm, not a cliché accent */
+  --brand-50:  #eef4f5;
+  --brand-100: #d5e4e6;
+  --brand-300: #8fb8bd;
+  --brand-500: #3f7f88;
+  --brand-600: #336870;
+  --brand-700: #294f56;
+
+  /* Attention / progress — restrained amber (performance, not alarm) */
+  --accent-400: #e3a44b;
+  --accent-500: #d18f2f;
+
+  /* Semantic */
+  --ok-500:   #2f8f5b;
+  --warn-500: #c98a1e;
+  --bad-500:  #c0492f;
+
+  /* Neutrals (light) */
+  --bg:         #f7f8f9;
+  --surface:    #ffffff;
+  --surface-2:  #f1f3f4;
+  --border:     #e3e7e9;
+  --text:       #1b2528;
+  --text-muted: #5c6b6f;
+
+  /* Type */
+  --font-ui:   'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Shape & depth */
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px rgba(27,37,40,.06), 0 1px 1px rgba(27,37,40,.04);
+  --shadow-md: 0 4px 12px rgba(27,37,40,.08);
+
+  /* Layout */
+  --sidebar-w: 248px;
+  --topbar-h: 60px;
+}
+
+[data-theme="dark"] {
+  --brand-50:  #16292c;
+  --brand-100: #1c3438;
+  --brand-300: #4f8992;
+  --brand-500: #5aa6b0;
+  --brand-600: #78bcc5;
+  --brand-700: #9fd2d9;
+
+  --bg:         #0f1516;
+  --surface:    #161e20;
+  --surface-2:  #1c2628;
+  --border:     #2a3639;
+  --text:       #e6ebec;
+  --text-muted: #93a3a7;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.35);
+  --shadow-md: 0 6px 18px rgba(0,0,0,.45);
+}
+
+/* ---------- 2. Base ----------------------------------------------------- */
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+
+h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.2rem; }
+code, .mono, .metric-value { font-family: var(--font-mono); }
+
+a { color: var(--brand-600); text-decoration: none; }
+a:hover { color: var(--brand-700); }
+
+::selection { background: var(--brand-100); color: var(--text); }
+
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- 3. App shell ------------------------------------------------ */
+.app-shell { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 40;
+}
+
+.sidebar-brand {
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 0 1.1rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.sidebar-brand .brand-mark {
+  width: 30px; height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-500);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 1rem;
+}
+
+.sidebar-nav { padding: .75rem .6rem; overflow-y: auto; flex: 1; }
+.nav-section-label {
+  font-size: .7rem;
+  color: var(--text-muted);
+  padding: .9rem .6rem .35rem;
+  font-weight: 500;
+}
+.nav-link-item {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .55rem .65rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: .92rem;
+  transition: background .12s ease, color .12s ease;
+}
+.nav-link-item:hover { background: var(--surface-2); color: var(--text); }
+.nav-link-item.active { background: var(--brand-50); color: var(--brand-600); }
+.nav-link-item.active i { color: var(--brand-500); }
+.nav-link-item i { width: 18px; text-align: center; font-size: .95rem; }
+
+.main-area {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  height: var(--topbar-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 1.4rem;
+  position: sticky; top: 0; z-index: 30;
+}
+.topbar .page-title { font-size: 1.05rem; font-weight: 600; margin: 0; }
+
+.content { padding: 1.6rem 1.4rem; flex: 1; }
+
+/* ---------- 4. Cards & surfaces ---------------------------------------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.card-pad { padding: 1.15rem 1.25rem; }
+.card-title { font-size: .95rem; font-weight: 600; margin: 0 0 .2rem; }
+.card-subtle { color: var(--text-muted); font-size: .85rem; }
+
+/* Stat tile — distinct from generic card: value-led, mono figure */
+.stat-tile { display: flex; flex-direction: column; gap: .3rem; }
+.stat-tile .stat-label { color: var(--text-muted); font-size: .82rem; font-weight: 500; }
+.stat-tile .stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.1;
+}
+.stat-tile .stat-delta { font-size: .8rem; font-weight: 500; }
+.stat-delta.up { color: var(--ok-500); }
+.stat-delta.down { color: var(--bad-500); }
+
+/* ---------- 5. Buttons (extend Bootstrap) ------------------------------ */
+.btn { border-radius: var(--radius-sm); font-weight: 500; }
+.btn-brand {
+  background: var(--brand-500);
+  border-color: var(--brand-500);
+  color: #fff;
+}
+.btn-brand:hover { background: var(--brand-600); border-color: var(--brand-600); color: #fff; }
+.btn-soft {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-soft:hover { background: var(--border); color: var(--text); }
+
+/* ---------- 6. Badges / pills ----------------------------------------- */
+.pill {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-size: .75rem; font-weight: 500;
+  padding: .18rem .55rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.pill.brand { background: var(--brand-50); color: var(--brand-600); border-color: var(--brand-100); }
+
+/* ---------- 7. Tables -------------------------------------------------- */
+.table-clean { width: 100%; border-collapse: collapse; }
+.table-clean th {
+  text-align: left; font-weight: 500; font-size: .8rem;
+  color: var(--text-muted);
+  padding: .6rem .75rem;
+  border-bottom: 1px solid var(--border);
+}
+.table-clean td {
+  padding: .7rem .75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: .9rem;
+}
+.table-clean tr:last-child td { border-bottom: 0; }
+.table-clean tbody tr:hover { background: var(--surface-2); }
+
+/* ---------- 8. Forms --------------------------------------------------- */
+.form-control, .form-select {
+  border-radius: var(--radius-sm);
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: .92rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 3px var(--brand-50);
+}
+.form-label { font-size: .85rem; font-weight: 500; margin-bottom: .3rem; }
+
+/* ---------- 9. Auth screen -------------------------------------------- */
+.auth-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(1200px 500px at 100% -10%, var(--brand-50), transparent 60%),
+    var(--bg);
+}
+.auth-card {
+  width: 100%; max-width: 400px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 2rem 1.9rem;
+}
+.auth-brand {
+  display: flex; align-items: center; gap: .6rem;
+  font-weight: 600; font-size: 1.1rem;
+  margin-bottom: 1.4rem;
+}
+
+/* ---------- 10. Toasts ------------------------------------------------- */
+.toast-stack {
+  position: fixed; top: 1rem; right: 1rem;
+  z-index: 1080;
+  display: flex; flex-direction: column; gap: .6rem;
+  max-width: 340px;
+}
+.toast-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-500);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  padding: .7rem .9rem;
+  font-size: .88rem;
+  display: flex; align-items: flex-start; gap: .55rem;
+  animation: toast-in .18s ease;
+}
+.toast-item.ok  { border-left-color: var(--ok-500); }
+.toast-item.bad { border-left-color: var(--bad-500); }
+.toast-item.warn{ border-left-color: var(--warn-500); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* ---------- 11. Loading ----------------------------------------------- */
+.spinner-inline {
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--brand-500);
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.is-loading { opacity: .6; pointer-events: none; }
+
+/* ---------- 12. Theme toggle ------------------------------------------ */
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  cursor: pointer;
+}
+.theme-toggle:hover { background: var(--surface-2); color: var(--text); }
+
+/* ---------- 13. Responsive ------------------------------------------- */
+.sidebar-backdrop { display: none; }
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); transition: transform .2s ease; }
+  .sidebar.open { transform: none; }
+  .main-area { margin-left: 0; }
+  .sidebar-backdrop.show {
+    display: block; position: fixed; inset: 0;
+    background: rgba(0,0,0,.35); z-index: 39;
+  }
+  .menu-btn { display: inline-grid !important; }
+}
+.menu-btn { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
